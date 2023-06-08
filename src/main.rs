@@ -282,7 +282,7 @@ fn parse_test_name(p: &mut Parser) -> Option<String> {
         eprintln!("Error: test name should be on the same line with the 'TEST' directive");
         return None;
     }
-    if is_at_end(p) {
+    if peek(p) == '\n' {
         eprintln!("Error: expected test name after the 'TEST' directive");
         return None;
     }
