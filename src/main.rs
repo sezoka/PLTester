@@ -18,7 +18,7 @@ struct TestsData {
 }
 
 fn main() {
-    let mut arg_iter = std::env::args().skip(1);
+    let mut arg_iter = std::env::args().skip(2);
 
     // TODO(sezoka): add option to escape output strings for error messages
     // e.g. '  ' -> '\t'
@@ -164,8 +164,8 @@ fn results_as_expected(result: &str, t: &Test) -> bool {
 }
 
 fn print_difference(result: &str, t: &Test) {
-    println!(":expected:\n\"{result}\"");
-    println!(":got:\n\"{}\"", t.expected);
+    println!(":got:\n\"{result}\"");
+    println!(":expected:\n\"{}\"", t.expected);
 }
 
 fn read_file(path: &str) -> Option<String> {
@@ -188,7 +188,7 @@ fn parse(file: String) -> Option<TestsData> {
     };
 
     skip_whitespaces(&mut p);
-    tests_data.command = parse_command(&mut p)?;
+    tests_data.command = get_command()?;
 
     loop {
         skip_whitespaces(&mut p);
@@ -200,6 +200,14 @@ fn parse(file: String) -> Option<TestsData> {
     }
 
     Some(tests_data)
+}
+
+fn get_command() -> Option<String> {
+    let mut args = std::env::args().skip(1);
+    if let Some(cmd) = args.next() {
+        return Some(cmd);
+    }
+    return None;
 }
 
 fn peek(p: &Parser) -> char {
@@ -225,7 +233,7 @@ fn is_at_end(p: &mut Parser) -> bool {
     peek(p) == '\0'
 }
 
-fn parse_command(p: &mut Parser) -> Option<String> {
+fn _parse_command(p: &mut Parser) -> Option<String> {
     if !p.chars.as_str().starts_with("COMMAND:") {
         eprintln!("Error: expected 'COMMAND:' directive at top of the file");
         return None;

@@ -1,6 +1,3 @@
-COMMAND: /usr/bin/python
-
-
 TEST hello world.py:
 ---
 print("Hello, World!")
@@ -12,7 +9,7 @@ TEST hello_world1.py:
 ---
 print("Hello, World!")
 ---
-Hello, Worl
+Hello, World!
 ---
 
 TEST hello_world2.py:
